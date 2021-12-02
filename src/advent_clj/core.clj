@@ -2,26 +2,30 @@
   (:require [clojure.java.io :as io]
             [clojure.string  :as string]))
 
+;; Dec 01 puzzles
+
+(def DAY-ONE-INPUT
+  (-> "input-01.txt"
+      io/resource
+      slurp
+      (string/split #"\n")
+      ((partial map read-string))))
+
+(defn count-increases-over-prior [[acc prev] line]
+        (if (or (nil? prev) (>= prev line))
+          [acc line]
+          [(inc acc) line]))
+
 (defn day-one-star-one []
-  (let [input (-> "input-01.txt"
-                  io/resource
-                  slurp
-                  (string/split #"\n"))
-        func  (fn [[acc prev] line]
-                (let [line' (read-string line)]
-                  (if (or (nil? prev) (>= prev line'))
-                    [acc line']
-                    [(inc acc) line'])))]
-    (first (reduce func [0 nil] input))))
+  (first (reduce count-increases-over-prior [0 nil] DAY-ONE-INPUT)))
 
 (defn day-one-star-two []
-  (let [input (-> "input-01.txt"
-                  io/resource
-                  slurp
-                  (string/split #"\n"))
-        func  (fn [[acc prev] group]
-                (let [group' (reduce + (map read-string group))]
-                  (if (or (nil? prev) (>= prev group'))
-                    [acc group']
-                    [(inc acc) group'])))]
-    (first (reduce func [0 nil] (partition 3 1 input)))))
+  (first (reduce count-increases-over-prior
+                 [0 nil]
+                 (map (partial reduce +) (partition 3 1 DAY-ONE-INPUT)))))
+
+;; Dec 02 puzzles
+
+(defn day-two-star-one [] "Unimplemented")
+
+(defn day-two-star-two [] "Unimplemented")
