@@ -17,9 +17,6 @@
           [acc line]
           [(inc acc) line]))
 
-(defn find-day-one-star [day]
-  ())
-
 (def day-one-star-one
   (first (reduce count-increases-over-prior [0 nil] DAY-ONE-INPUT)))
 
