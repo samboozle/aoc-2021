@@ -9,6 +9,13 @@
         (partial format "input-%02d.txt")
         read-string))
 
+(def get-daily-test
+  (comp #(string/split % #"\n")
+        slurp
+        io/resource
+        (partial format "input-%02d-test.txt")
+        read-string))
+
 ;; Dec 01 puzzles
 
 (def DAY-ONE-INPUT
@@ -124,6 +131,45 @@
 (def day-03-star-02
   (reduce * [(binary->decimal (oxygen         DAY-THREE-INPUT))
              (binary->decimal (carbon-dioxide DAY-THREE-INPUT))]))
+
+;; Dec 04
+
+(def DAY-FOUR-INPUT
+  (let [[moves & boards] (get-daily-test "4")]
+    {:moves  (map read-string (string/split moves #","))
+     :boards (reduce (fn [[board & tail :as table] row]
+                       (if (= "" row)
+                         (conj table [])
+                         (conj tail (conj board (map read-string (string/split (string/trim row) #"\s+"))))))
+                     '()
+                     boards)}))
+
+(defn columns [matrix]
+  (for [n (range (count matrix))]
+    (map #(nth % n) matrix)))
+
+(defn tiles [matrix]
+  (apply concat matrix))
+
+(defn avenues [matrix]
+  (concat matrix (columns matrix)))
+
+(defn winning? [numbers matrix]
+  (some (partial every? numbers) (avenues matrix)))
+
+(defn play-bingo [{moves :moves boards :boards}]
+  (reduce (fn [numbers number]
+            (let [numbers'     (conj numbers number)
+                  [winner & _] (filter (partial winning? numbers') boards)]
+              (if winner
+                  (reduced
+                   (reduce + (filter (complement numbers') (tiles winner))))
+                  numbers')))
+          #{}
+          moves))
+
+(def day-04-star-one
+  (play-bingo DAY-FOUR-INPUT))
 
 ;; overall result
 
