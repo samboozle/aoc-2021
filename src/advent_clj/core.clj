@@ -1,218 +1,25 @@
 (ns advent-clj.core
   (:require [clojure.java.io :as io]
-            [clojure.string  :as string]))
+            [helpers         :refer [lines]]))
 
-(def get-daily-input
-  (comp #(string/split % #"\n")
-        slurp
-        io/resource
-        (partial format "input-%02d.txt")
-        read-string))
+(defn get-daily-input
+  ([day]       (get-daily-input day false))
+  ([day test?] (->> day
+                    (format (str "input-%02d" (when test? "-test") ".txt"))
+                    io/resource
+                    slurp
+                    lines)))
 
-(def get-daily-test
-  (comp #(string/split % #"\n")
-        slurp
-        io/resource
-        (partial format "input-%02d-test.txt")
-        read-string))
+(defn solve-day [day]
+  (vec ((resolve (symbol (format "advent-clj.december.dec-%02d/stars" day))) (get-daily-input day))))
 
-;; Dec 01 puzzles
+(defn solve-days [up-to]
+  (vec (map solve-day (take up-to (drop 1 (range))))))
 
-(def DAY-ONE-INPUT
-  (map read-string (get-daily-input "1")))
-
-;; two implementations
-
-(defn count-increases-over-prior [[acc prev] line]
-  (if (or (nil? prev) (>= prev line))
-    [acc line]
-    [(inc acc) line]))
-
-(defn count-increases-over-prior' [coll]
-  (count (filter (partial apply <) (partition 2 1 coll))))
-
-;; (def day-01-star-01
-;;   (first (reduce count-increases-over-prior [0 nil] DAY-ONE-INPUT)))
-
-(def day-01-star-01
-  (count-increases-over-prior' DAY-ONE-INPUT))
-
-(def day-01-star-02
-  (count-increases-over-prior' (map (partial reduce +) (partition 3 1 DAY-ONE-INPUT))))
-
-;; Dec 02 puzzles
-
-(def DAY-TWO-INPUT
-  (map (comp (partial apply #(vector (keyword %1) (read-string %2))) #(string/split % #"\s")) (get-daily-input "2")))
-
-(defn change-point [[hrz dep] [dir amp]]
-  (case dir
-    :forward [(+ hrz amp) dep]
-    :down    [hrz (+ dep amp)]
-    :up      [hrz (max (- dep amp) 0)]))
-
-(defn change-point' [[hrz dep aim] [dir amp]]
-  (case dir
-    :forward [(+ hrz amp) (+ dep (* aim amp)) aim]
-    :down    [hrz dep (+ aim amp)]
-    :up      [hrz dep (max (- aim amp) 0)]))
-
-(def day-02-star-01
-  (reduce * (reduce change-point [0 0] DAY-TWO-INPUT)))
-
-(def day-02-star-02
-  (reduce * (take 2 (reduce change-point' [0 0 0] DAY-TWO-INPUT))))
-
-;; Dec 03 puzzles
-
-(def DAY-THREE-INPUT
-  (map seq (get-daily-input "3")))
-
-(def frequencies-map
-  (partial apply map (comp frequencies vector)))
-
-(defn gamma-epsilon [coll]
-  (reduce
-   (fn [acc frq]
-     (map conj acc (reverse (sort-by #(frq %) (keys frq)))))
-   [[] []] ;; using lists here gives me my binary numbers backward
-   (frequencies-map coll)))
-
-(defn oxygen [coll]
-  (loop [idx                  0
-         [head & _ :as coll'] coll]
-    (let [out-of-bounds?    (= (count head) idx)
-          {zros \0 ones \1} (if out-of-bounds?
-                              {}
-                              (group-by #(nth % idx) coll'))
-          zros'             (count zros)
-          ones'             (count ones)
-          zros-win?         (> zros' ones')]
-      (cond
-        (= 1 (count coll')) head
-        zros-win?           (recur (inc idx) zros)
-        :else               (recur (inc idx) ones)))))
-
-(defn carbon-dioxide [coll]
-  (loop [idx                  0
-         [head & _ :as coll'] coll]
-    (let [out-of-bounds?    (= (count head) idx)
-          {zros \0 ones \1} (if out-of-bounds?
-                              {}
-                              (group-by #(nth % idx) coll'))
-          zros'             (count zros)
-          ones'             (count ones)
-          ones-win?         (> zros' ones')]
-      (cond
-        (= 1 (count coll')) head
-        ones-win?           (recur (inc idx) ones)
-        :else               (recur (inc idx) zros)))))
-
-(defn binary->decimal [binary]
-  ;; backward binary numbers are easier to reduce to decimals
-  (second (reduce
-           (fn [[pow tot] dig]
-             (let [dig' (case dig \0 0 \1 1)]
-               [(inc pow) (+ tot (* dig' (reduce * (repeat pow 2))))]))
-           [0 0]
-           (into '() binary))))
-
-(def day-03-star-01
-  (->> (gamma-epsilon DAY-THREE-INPUT)
-       (map binary->decimal)
-       (reduce *)))
-
-(def day-03-star-02
-  (reduce * [(binary->decimal (oxygen         DAY-THREE-INPUT))
-             (binary->decimal (carbon-dioxide DAY-THREE-INPUT))]))
-
-;; Dec 04 puzzles
-
-(def DAY-FOUR-INPUT
-  (let [[moves & boards] (get-daily-input "4")]
-    {:moves  (map read-string (string/split moves #","))
-     :boards (reduce (fn [[board & tail :as table] row]
-                       (if (= "" row)
-                         (conj table [])
-                         (conj tail (conj board (map read-string (string/split (string/trim row) #"\s+"))))))
-                     '()
-                     boards)}))
-
-(defn columns [matrix]
-  (for [n (range (count matrix))]
-    (map #(nth % n) matrix)))
-
-(defn tiles [matrix]
-  (apply concat matrix))
-
-(defn avenues [matrix]
-  (concat matrix (columns matrix)))
-
-(defn winning? [numbers matrix]
-  (some (partial every? numbers) (avenues matrix)))
-
-(defn play-bingo [{moves :moves boards :boards}]
-  (reduce (fn [numbers number]
-            (let [numbers'     (conj numbers number)
-                  [winner & _] (filter (partial winning? numbers') boards)]
-              (if winner
-                (reduced
-                 (* number (reduce + (filter (complement numbers') (tiles winner)))))
-                numbers')))
-          #{}
-          moves))
-
-(defn lose-bingo [{moves :moves boards :boards}]
-  (reduce (fn [numbers number]
-            (let [numbers'     (disj numbers number)
-                  [last-place & _] (filter (partial (complement winning?) numbers') boards)]
-              (if last-place
-                (reduced
-                 (* number (reduce + (filter (complement numbers) (tiles last-place)))))
-                numbers')))
-          (into #{} moves)
-          (reverse moves)))
-
-(def day-04-star-01
-  (play-bingo DAY-FOUR-INPUT))
-
-
-(def day-04-star-02
-  (lose-bingo DAY-FOUR-INPUT))
-
-;; Dec 05 puzzles
-
-(def DAY-FIVE-INPUT
-  (map (comp (partial map (comp (partial map read-string)
-                                #(string/split % #",")))
-             #(string/split % #"\s->\s"))
-       (get-daily-input "5")))
-
-(defn populate-lines [coordinates]
-  (letfn [(make-line
-           [[lo hi] other]
-           (map #(list % other) (range lo (inc hi))))]
-    (reduce (fn [acc [[x1 y1] [x2 y2]]]
-              (cond
-                (= x1 x2) (into acc (make-line (sort [y1 y2]) x1))
-                (= y1 y2) (into acc (map reverse (make-line (sort [x1 x2]) y1)))
-                :else     acc))
-            []
-            coordinates)))
-
-(def day-05-star-01
-  (->> (populate-lines DAY-FIVE-INPUT)
-       frequencies
-       (filter (fn [[_ v]] (> v 1)))
-       count))
-
-;; overall result
-
-(defn SOLUTION-MAP []
-  [[day-01-star-01 day-01-star-02]
-   [day-02-star-01 day-02-star-02]
-   [day-03-star-01 day-03-star-02]
-   [day-04-star-01 day-04-star-02]])
+(def SOLUTIONS
+  (solve-days 4))
 
 (defn find-star [day star]
-  (get-in (SOLUTION-MAP) [(dec day) (dec star)]))
+  (get-in SOLUTIONS [(dec day) (dec star)]))
+
+
