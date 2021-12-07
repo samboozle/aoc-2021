@@ -132,10 +132,10 @@
   (reduce * [(binary->decimal (oxygen         DAY-THREE-INPUT))
              (binary->decimal (carbon-dioxide DAY-THREE-INPUT))]))
 
-;; Dec 04
+;; Dec 04 puzzles
 
 (def DAY-FOUR-INPUT
-  (let [[moves & boards] (get-daily-test "4")]
+  (let [[moves & boards] (get-daily-input "4")]
     {:moves  (map read-string (string/split moves #","))
      :boards (reduce (fn [[board & tail :as table] row]
                        (if (= "" row)
@@ -163,20 +163,37 @@
                   [winner & _] (filter (partial winning? numbers') boards)]
               (if winner
                   (reduced
-                   (reduce + (filter (complement numbers') (tiles winner))))
+                   (* number (reduce + (filter (complement numbers') (tiles winner)))))
                   numbers')))
           #{}
           moves))
 
-(def day-04-star-one
+(defn lose-bingo [{moves :moves boards :boards}]
+  (reduce (fn [numbers number]
+            (let [numbers'     (disj numbers number)
+                  [last-place & _] (filter (partial (complement winning?) numbers') boards)]
+              (if last-place
+                  (reduced
+                   (* number (reduce + (filter (complement numbers) (tiles last-place)))))
+                  numbers')))
+          (into #{} moves)
+          (reverse moves)))
+
+(def day-04-star-01
   (play-bingo DAY-FOUR-INPUT))
+
+
+(def day-04-star-02
+  (lose-bingo DAY-FOUR-INPUT))
 
 ;; overall result
 
 (defn SOLUTION-MAP []
   [[day-01-star-01 day-01-star-02]
    [day-02-star-01 day-02-star-02]
-   [day-03-star-01 day-03-star-02]])
+   [day-03-star-01 day-03-star-02]
+   [day-04-star-01 day-04-star-02]
+   ])
 
 (defn find-star [day star]
   (get-in (SOLUTION-MAP) [(dec day) (dec star)]))
