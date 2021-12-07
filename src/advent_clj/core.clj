@@ -68,12 +68,6 @@
 (def DAY-THREE-INPUT
   (map seq (get-daily-input "3")))
 
-(def DAY-THREE-TEST
-  (->> (io/resource "input-03-test.txt")
-       slurp
-       (#(string/split % #"\n"))
-       (map seq)))
-
 (def frequencies-map
   (partial apply map (comp frequencies vector)))
 
@@ -162,9 +156,9 @@
             (let [numbers'     (conj numbers number)
                   [winner & _] (filter (partial winning? numbers') boards)]
               (if winner
-                  (reduced
-                   (* number (reduce + (filter (complement numbers') (tiles winner)))))
-                  numbers')))
+                (reduced
+                 (* number (reduce + (filter (complement numbers') (tiles winner)))))
+                numbers')))
           #{}
           moves))
 
@@ -173,9 +167,9 @@
             (let [numbers'     (disj numbers number)
                   [last-place & _] (filter (partial (complement winning?) numbers') boards)]
               (if last-place
-                  (reduced
-                   (* number (reduce + (filter (complement numbers) (tiles last-place)))))
-                  numbers')))
+                (reduced
+                 (* number (reduce + (filter (complement numbers) (tiles last-place)))))
+                numbers')))
           (into #{} moves)
           (reverse moves)))
 
@@ -186,14 +180,39 @@
 (def day-04-star-02
   (lose-bingo DAY-FOUR-INPUT))
 
+;; Dec 05 puzzles
+
+(def DAY-FIVE-INPUT
+  (map (comp (partial map (comp (partial map read-string)
+                                #(string/split % #",")))
+             #(string/split % #"\s->\s"))
+       (get-daily-input "5")))
+
+(defn populate-lines [coordinates]
+  (letfn [(make-line
+           [[lo hi] other]
+           (map #(list % other) (range lo (inc hi))))]
+    (reduce (fn [acc [[x1 y1] [x2 y2]]]
+              (cond
+                (= x1 x2) (into acc (make-line (sort [y1 y2]) x1))
+                (= y1 y2) (into acc (map reverse (make-line (sort [x1 x2]) y1)))
+                :else     acc))
+            []
+            coordinates)))
+
+(def day-05-star-01
+  (->> (populate-lines DAY-FIVE-INPUT)
+       frequencies
+       (filter (fn [[_ v]] (> v 1)))
+       count))
+
 ;; overall result
 
 (defn SOLUTION-MAP []
   [[day-01-star-01 day-01-star-02]
    [day-02-star-01 day-02-star-02]
    [day-03-star-01 day-03-star-02]
-   [day-04-star-01 day-04-star-02]
-   ])
+   [day-04-star-01 day-04-star-02]])
 
 (defn find-star [day star]
   (get-in (SOLUTION-MAP) [(dec day) (dec star)]))
