@@ -27,17 +27,13 @@
           []
           coordinates))
 
+(defn lines-to-solution [input diagonals?]
+  (->> (parse-input input)
+       (populate-lines diagonals?)
+       frequencies
+       (filter (fn [[_ v]] (> v 1)))
+       count))
+
 (defn stars [input]
-  [(->> (parse-input input)
-        (populate-lines false)
-        frequencies
-        (filter (fn [[_ v]] (> v 1)))
-        count
-        )
-   (->> (parse-input input)
-        (populate-lines true)
-        frequencies
-        (filter (fn [[_ v]] (> v 1)))
-        count
-        )
-   ])
+  [(lines-to-solution input false)
+   (lines-to-solution input true)])

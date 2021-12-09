@@ -4,7 +4,9 @@
 ; Please see https://calva.io/output/ for more info.
 ; Happy coding! ♥️
 
-; Connecting ...
+; Jacking in...
+; Starting Jack-in Terminal: lein update-in :dependencies conj '[nrepl,"0.8.3"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.26.0"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- repl :headless
+; nREPL Connection was closed
 ; Hooking up nREPL sessions...
 ; Connected session: clj
 ; TIPS: 
@@ -15,209 +17,48 @@
 ;      when the cursor is after the last contents at the prompt
 ;   - Clojure lines in stack traces are peekable and clickable.
 clj꞉advent-clj.core꞉> 
-#'advent-clj.december.dec-05/make-incline
-clj꞉advent-clj.december.dec-05꞉> (map #(%1 %2) '(0 8) (inc dec))
-; Execution error (ClassCastException) at advent-clj.december.dec-05/eval7510 (form-init474099296533017978.clj:19).
-; clojure.core$dec cannot be cast to java.lang.Number
-clj꞉advent-clj.december.dec-05꞉> 
-(map #(%2 %1) '(0 8) (inc dec))
-; Execution error (ClassCastException) at advent-clj.december.dec-05/eval7522 (form-init474099296533017978.clj:23).
-; clojure.core$dec cannot be cast to java.lang.Number
-clj꞉advent-clj.december.dec-05꞉> 
-(map #(%2 %1) '(0 8) '(inc dec))
-(nil nil)
-clj꞉advent-clj.december.dec-05꞉> 
-(map #(%1 %2) [inc dec] [0 8])
-(1 7)
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/make-incline
-clj꞉advent-clj.december.dec-05꞉> 
-(make-incline [0 8] [8 0] [inc dec])
-[[0 8] (1 7) (2 6) (3 5) (4 4) (5 3) (6 2) (7 1) (8 0)]
-clj꞉advent-clj.december.dec-05꞉> 
-(make-incline [0 8] [4 4] [inc dec])
-[[0 8] (1 7) (2 6) (3 5) (4 4)]
-clj꞉advent-clj.december.dec-05꞉> 
-; Syntax error compiling at (src/advent_clj/december/dec_05.clj:27:70).
-; Unable to resolve symbol: make-horizontal in this context
-clj꞉advent-clj.december.dec-05꞉> 
+; Jack-in done.
+clj꞉advent-clj.core꞉> 
 nil
 clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/parse-input
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/make-horizontal
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/make-vertical
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/make-decline
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/make-incline
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/populate-lines
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/stars
-clj꞉advent-clj.december.dec-05꞉> 
-nil
-clj꞉advent-clj.core꞉> 
-(test-day 5)
-[5 ([(4 3) 2] [(2 2) 2] [(9 0) 2] [(4 7) 2] [(4 6) 2] [(1 7) 2] [(5 5) 2] [(9 2) 2] [(9 1) 2] [(4 4) 3] [(3 5) 2])]
-clj꞉advent-clj.core꞉> 
-#'advent-clj.december.dec-05/stars
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.core/test-day
-clj꞉advent-clj.core꞉> 
-(test-day 5)
-[5 11]
-clj꞉advent-clj.core꞉> 
-#'advent-clj.december.dec-05/stars
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/stars
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.core/get-daily-input
-clj꞉advent-clj.core꞉> 
-(test-day 5)
-[5 {(8 8) 1, (7 1) 1, (4 3) 2, (2 2) 2, (0 0) 1, (7 7) 1, (3 3) 1, (1 1) 1, (7 3) 1, (4 2) 1, (9 0) 2, (6 6) 1, (5 3) 1, (9 3) 1, (4 7) 2, (4 9) 1, (8 0) 1, (4 1) 1, (4 6) 2, (5 7) 1, (8 2) 1, (4 8) 1, (1 7) 2, (6 4) 1, (0 7) 1, (6 8) 1, (5 5) 2, (2 7) 1, (2 4) 1, (9 2) 2, (4 5) 1, (9 1) 2, (9 5) 1, (9 4) 1, (4 4) 3, (3 7) 1, (2 6) 1, (6 2) 1, (1 2) 1, (3 5) 2, (0 8) 1}]
-clj꞉advent-clj.core꞉> 
-(solve-day )
-#'advent-clj.december.dec-05/stars
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.core/test-day
-clj꞉advent-clj.core꞉> 
-(solve-day 5)
-[6189 18561]
-clj꞉advent-clj.core꞉> 
-; Syntax error compiling at (src/advent_clj/december/dec_05.clj:29:15).
-; Unable to resolve symbol: diagonals? in this context
-clj꞉advent-clj.december.dec-05꞉> 
-; Syntax error compiling at (src/advent_clj/december/dec_05.clj:1:7981).
-; Unable to resolve symbol: diagonals? in this context
-clj꞉advent-clj.december.dec-05꞉> 
-; Syntax error compiling at (src/advent_clj/december/dec_05.clj:29:70).
-; Unable to resolve symbol: make-diagonal in this context
-clj꞉advent-clj.december.dec-05꞉> 
 #'advent-clj.december.dec-05/make-diagonal
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/populate-lines
-clj꞉advent-clj.december.dec-05꞉> 
-(solve-day 5)
-; Syntax error compiling at (.calva/output-window/output.calva-repl:102:1).
-; Unable to resolve symbol: solve-day in this context
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/stars
-clj꞉advent-clj.december.dec-05꞉> 
-#'clojure.core/format
-clj꞉clojure.core꞉> 
-#'clojure.core/format
-clj꞉clojure.core꞉> 
-#'advent-clj.core/solve-day
-clj꞉advent-clj.core꞉> 
-(test-day 5)
-; Execution error (ArityException) at advent-clj.december.dec-05/populate-lines (form-init474099296533017978.clj:25).
-; Wrong number of args (1) passed to: clojure.core/reduce
-clj꞉advent-clj.core꞉> 
-advent-clj.december.dec-05/populate-lines (form-init474099296533017978.clj:25)
-advent-clj.december.dec-05/populate-lines (form-init474099296533017978.clj:24)
-advent-clj.december.dec-05/stars (form-init474099296533017978.clj:38)
-advent-clj.december.dec-05/stars (form-init474099296533017978.clj:36)
-clojure.lang.Var/invoke (Var.java:384)
-advent-clj.core/test-day (form-init474099296533017978.clj:17)
-advent-clj.core/test-day (form-init474099296533017978.clj:16)
-advent-clj.core/eval7862 (form-init474099296533017978.clj:114)
-clojure.lang.Compiler/eval (Compiler.java:7177)
-clojure.core/eval (core.clj:3214)
-clojure.core/eval (core.clj:3210)
-nrepl.middleware.interruptible-eval/evaluate (interruptible_eval.clj:87)
-clojure.core/apply (core.clj:665)
-clojure.core/with-bindings* (core.clj:1973)
-nrepl.middleware.interruptible-eval/evaluate (interruptible_eval.clj:87)
-clojure.main/repl (main.clj:437)
-clojure.main/repl (main.clj:458)
-clojure.main/repl (main.clj:368)
-nrepl.middleware.interruptible-eval/evaluate (interruptible_eval.clj:84)
-nrepl.middleware.interruptible-eval/evaluate (interruptible_eval.clj:56)
-nrepl.middleware.interruptible-eval/interruptible-eval (interruptible_eval.clj:152)
-nrepl.middleware.session/session-exec (session.clj:202)
-nrepl.middleware.session/session-exec (session.clj:201)
-java.lang.Thread/run (Thread.java:748)
-clj꞉advent-clj.core꞉> 
-#'advent-clj.december.dec-05/populate-lines
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/make-diagonal
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/populate-lines
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/populate-lines
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/make-diagonal
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/make-vertical
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/make-horizontal
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/populate-lines
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/stars
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.core/solve-day
-clj꞉advent-clj.core꞉> 
-(test-day)
-; Execution error (ArityException) at advent-clj.core/eval7970 (form-init474099296533017978.clj:163).
-; Wrong number of args (0) passed to: advent-clj.core/test-day
-clj꞉advent-clj.core꞉> 
-(test-day 5)
-; Execution error (ArityException) at advent-clj.december.dec-05/populate-lines (form-init474099296533017978.clj:25).
-; Wrong number of args (1) passed to: clojure.core/reduce
-clj꞉advent-clj.core꞉> 
-#'advent-clj.december.dec-05/populate-lines
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.core/test-day
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/stars
-clj꞉advent-clj.core꞉> 
-(test-day 5)
-[5 12]
-clj꞉advent-clj.core꞉> 
-; Syntax error compiling at (src/advent_clj/december/dec_05.clj:26:83).
-; Unable to resolve symbol: make-straight in this context
 clj꞉advent-clj.december.dec-05꞉> 
 #'advent-clj.december.dec-05/make-straight
 clj꞉advent-clj.december.dec-05꞉> 
 #'advent-clj.december.dec-05/populate-lines
 clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/stars
+; Syntax error compiling at (src/advent_clj/december/dec_05.clj:31:9).
+; Unable to resolve symbol: parse-input in this context
 clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.core/test-day
-clj꞉advent-clj.core꞉> 
-(test-day 5)
-[5 12]
-clj꞉advent-clj.core꞉> 
-#'advent-clj.december.dec-05/stars
+#'advent-clj.december.dec-05/parse-input
 clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.core/test-day
-clj꞉advent-clj.core꞉> (solve-day 5)
-[6189 19098]
-clj꞉advent-clj.core꞉> 
+#'advent-clj.december.dec-05/make-straight
+clj꞉advent-clj.december.dec-05꞉> 
+#'advent-clj.december.dec-05/make-diagonal
+clj꞉advent-clj.december.dec-05꞉> 
+#'clojure.core/apply
+clj꞉clojure.core꞉> 
 #'advent-clj.december.dec-05/populate-lines
 clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.core/solve-day
-clj꞉advent-clj.core꞉> 
-(test-day 5)
-[5 12]
-clj꞉advent-clj.core꞉> 
-(solve-day 5)
-[6189 19164]
-clj꞉advent-clj.core꞉> 
 #'advent-clj.december.dec-05/lines-to-solution
 clj꞉advent-clj.december.dec-05꞉> 
 #'advent-clj.december.dec-05/stars
 clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/lines-to-solution
-clj꞉advent-clj.december.dec-05꞉> 
-#'advent-clj.december.dec-05/stars
-clj꞉advent-clj.december.dec-05꞉> 
-#'clojure.core/drop
-clj꞉clojure.core꞉> 
+; Syntax error compiling at (src/advent_clj/core.clj:14:78).
+; Unable to resolve symbol: get-daily-input in this context
+clj꞉advent-clj.core꞉> 
+; Syntax error compiling at (src/advent_clj/core.clj:14:78).
+; Unable to resolve symbol: get-daily-input in this context
+clj꞉advent-clj.core꞉> 
+nil
+clj꞉advent-clj.core꞉> 
+#'advent-clj.core/get-daily-input
+clj꞉advent-clj.core꞉> 
+#'advent-clj.core/get-daily-input
+clj꞉advent-clj.core꞉> 
 #'advent-clj.core/solve-day
+clj꞉advent-clj.core꞉> 
+#'advent-clj.core/test-day
 clj꞉advent-clj.core꞉> 
 (solve-day 5)
 [6189 19164]
