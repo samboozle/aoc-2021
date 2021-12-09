@@ -38,7 +38,7 @@
 
 (defn lose-bingo [{moves :moves boards :boards}]
   (reduce (fn [numbers number]
-            (let [numbers'     (disj numbers number)
+            (let [numbers'         (disj numbers number)
                   [last-place & _] (filter (partial (complement winning?) numbers') boards)]
               (if last-place
                 (reduced

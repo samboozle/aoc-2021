@@ -13,13 +13,14 @@
 (defn solve-day [day]
   (vec ((resolve (symbol (format "advent-clj.december.dec-%02d/stars" day))) (get-daily-input day))))
 
+(defn test-day [day]
+  (vec ((resolve (symbol (format "advent-clj.december.dec-%02d/stars" day))) (get-daily-input day true))))
+
 (defn solve-days [up-to]
   (vec (map solve-day (take up-to (drop 1 (range))))))
 
 (def SOLUTIONS
-  (solve-days 4))
+  (solve-days 5))
 
 (defn find-star [day star]
   (get-in SOLUTIONS [(dec day) (dec star)]))
-
-
