@@ -3,8 +3,8 @@
 (def parse-input
   (partial map read-string))
 
-(defn count-increases-over-prior [coll]
-  (count (filter (partial apply <) (partition 2 1 coll))))
+(def count-increases-over-prior
+  (comp count (partial filter (partial apply <)) (partial partition 2 1)))
 
 (defn stars [input]
   (let [input' (parse-input input)]
