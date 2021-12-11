@@ -9,7 +9,7 @@
 (defn min-gas [input triangles?]
   (apply min
          (for [x (range (apply min input) (inc (apply max input)))]
-           (reduce + (map #((comp (if triangles? triangle identity)) (abs (- x %))) input)))))
+           (reduce + (map #((if triangles? triangle identity) (abs (- x %))) input)))))
 
 (defn stars [input]
   [(min-gas (parse-input input) false)

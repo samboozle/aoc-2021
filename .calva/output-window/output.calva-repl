@@ -110,3 +110,15 @@ clj꞉advent-clj.core꞉> 
 (solve-day 7)
 [340052 92948968]
 clj꞉advent-clj.core꞉> 
+#'advent-clj.december.dec-07/min-gas
+clj꞉advent-clj.december.dec-07꞉> 
+#'advent-clj.december.dec-07/stars
+clj꞉advent-clj.december.dec-07꞉> 
+nil
+clj꞉advent-clj.core꞉> 
+(solve-day 7)
+[340052 92948968]
+clj꞉advent-clj.core꞉> 
+(solve-day 7)
+[340052 92948968]
+clj꞉advent-clj.core꞉> 
