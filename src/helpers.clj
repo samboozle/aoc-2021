@@ -23,3 +23,13 @@
                [(inc pow) (+ tot (* dig' (reduce * (repeat pow 2))))]))
            [0 0]
            (into '() binary))))
+
+(defn abs [value]
+  (if (pos? value)
+    value
+    (- 0 value)))
+
+(defn _triangle [number]
+  (reduce + (range (inc number))))
+
+(def triangle (memoize _triangle))

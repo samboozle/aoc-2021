@@ -25,4 +25,4 @@
 
 (defn stars [input]
   [(reduce + 0 (vals (nth (exponentiate-fish' (parse-input input)) 80)))
-   (reduce + 0 (vals (nth (exponentiate-fish' (parse-input input)) 256)))]) 
+   (reduce + 0 (vals (nth (exponentiate-fish' (parse-input input)) 256)))])
