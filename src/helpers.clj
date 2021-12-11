@@ -16,6 +16,9 @@
 (def product
   (partial reduce *))
 
+(def sum
+  (partial reduce +))
+
 (defn binary->decimal [binary]
   (second (reduce
            (fn [[pow tot] dig]

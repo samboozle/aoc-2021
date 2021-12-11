@@ -1,5 +1,5 @@
 (ns advent-clj.december.dec-06
-  (:require [helpers :refer [comma]]))
+  (:require [helpers :refer [comma sum]]))
 
 (def parse-input
  (comp (partial map read-string) comma first))
@@ -24,5 +24,5 @@
   (iterate pass-day (merge-with + {0 0 1 0 2 0 3 0 4 0 5 0 6 0 7 0 8 0} (frequencies starting-generation))))
 
 (defn stars [input]
-  [(reduce + 0 (vals (nth (exponentiate-fish' (parse-input input)) 80)))
-   (reduce + 0 (vals (nth (exponentiate-fish' (parse-input input)) 256)))])
+  [(sum (vals (nth (exponentiate-fish' (parse-input input)) 80)))
+   (sum (vals (nth (exponentiate-fish' (parse-input input)) 256)))])

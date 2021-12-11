@@ -1,6 +1,6 @@
 (ns advent-clj.december.dec-04
   (:require [clojure.string :refer [trim]]
-            [helpers        :refer [comma words]]))
+            [helpers        :refer [comma sum words]]))
 
 (defn parse-input [input]
   (let [[moves & boards] input]
@@ -31,7 +31,7 @@
                   [winner & _] (filter (partial winning? numbers') boards)]
               (if winner
                 (reduced
-                 (* number (reduce + (filter (complement numbers') (tiles winner)))))
+                 (* number (sum (filter (complement numbers') (tiles winner)))))
                 numbers')))
           #{}
           moves))
@@ -42,7 +42,7 @@
                   [last-place & _] (filter (partial (complement winning?) numbers') boards)]
               (if last-place
                 (reduced
-                 (* number (reduce + (filter (complement numbers) (tiles last-place)))))
+                 (* number (sum (filter (complement numbers) (tiles last-place)))))
                 numbers')))
           (into #{} moves)
           (reverse moves)))

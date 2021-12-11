@@ -122,3 +122,23 @@ clj꞉advent-clj.core꞉> 
 (solve-day 7)
 [340052 92948968]
 clj꞉advent-clj.core꞉> 
+; Execution error (IllegalAccessError) at advent-clj.december.dec-07/eval7733$loading (form-init3977193222625269716.clj:1).
+; sum does not exist
+clj꞉advent-clj.december.dec-07꞉> 
+nil
+clj꞉helpers꞉> 
+#'helpers/sum
+clj꞉helpers꞉> 
+nil
+clj꞉advent-clj.december.dec-07꞉> 
+#'advent-clj.december.dec-07/parse-input
+clj꞉advent-clj.december.dec-07꞉> 
+#'advent-clj.december.dec-07/min-gas
+clj꞉advent-clj.december.dec-07꞉> 
+#'advent-clj.december.dec-07/stars
+clj꞉advent-clj.december.dec-07꞉> 
+nil
+clj꞉advent-clj.core꞉> 
+(solve-day 7)
+[340052 92948968]
+clj꞉advent-clj.core꞉> 

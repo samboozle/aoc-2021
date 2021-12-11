@@ -1,5 +1,5 @@
 (ns advent-clj.december.dec-07
-  (:require [helpers :refer [abs comma triangle]]))
+  (:require [helpers :refer [abs comma sum triangle]]))
 
 (def parse-input
  (comp (partial map read-string) comma first))
@@ -9,7 +9,7 @@
 (defn min-gas [input triangles?]
   (apply min
          (for [x (range (apply min input) (inc (apply max input)))]
-           (reduce + (map #((if triangles? triangle identity) (abs (- x %))) input)))))
+           (sum (map #((if triangles? triangle identity) (abs (- x %))) input)))))
 
 (defn stars [input]
   [(min-gas (parse-input input) false)
