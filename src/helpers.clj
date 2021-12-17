@@ -36,3 +36,12 @@
   (reduce + (range (inc number))))
 
 (def triangle (memoize _triangle))
+
+(def string->set
+  (comp set seq))
+
+(def digits->int
+  (partial reduce #(+ %2 (* 10 %1)) 0))
+
+(defn first-where [pred]
+  (comp first (partial filter pred)))
